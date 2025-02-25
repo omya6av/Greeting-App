@@ -1,6 +1,7 @@
 package com.greetingapp.demo;
 
 import com.greetingapp.greetingservice.GreetingService;
+import com.greetingapp.model.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class GreetingController {
 
 
     //UC2
-    private final GreetingService greetingService;
+    private final GreetingService greetingService;   //dependency injection
 
     @Autowired
     public GreetingController( GreetingService greetingService){
@@ -43,9 +44,14 @@ public class GreetingController {
         return greetingService.getGreeting();
     }
 
-    //UC3
+    //UC3 //UC4
     @GetMapping("/personalized")
     public String getPersonalizedMessage(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName){
+        Greeting savedGreeting = greetingService.saveGreeting(firstName,lastName);
         return greetingService.getPersonalizedMessage(firstName,lastName);
     }
+
+
+
+
 }
