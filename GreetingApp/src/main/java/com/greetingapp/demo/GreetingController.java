@@ -32,8 +32,7 @@ public class GreetingController {
     public GreetingApp delete() {
         return new GreetingApp("Hello world ", "delete");
     }
-
-
+    
     //UC2
     private final GreetingService greetingService;   //dependency injection
 
@@ -68,5 +67,11 @@ public class GreetingController {
         return ResponseEntity.ok(greetings);
     }
 
+    //UC7
+    @PutMapping("/{id}")
+    public ResponseEntity<Greeting> updateGreeting(@PathVariable Long id,@RequestBody String newMessage){
+        Greeting updateGreeting = greetingService.updateGreeting(id, newMessage);
+        return  ResponseEntity.ok(updateGreeting);
+    }
 
 }

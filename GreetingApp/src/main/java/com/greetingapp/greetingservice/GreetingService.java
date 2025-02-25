@@ -56,4 +56,12 @@ public class GreetingService {
         return greetingRepository.findAll();
     }
 
+    //UC7
+    public Greeting updateGreeting(Long id, String newMessage){
+        Greeting existingGreeting = greetingRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Greeting not fount with ID: " + id));
+
+        existingGreeting.setMessage(newMessage);
+        return greetingRepository.save(existingGreeting);
+    }
+
 }
