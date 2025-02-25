@@ -3,6 +3,7 @@ package com.greetingapp.demo;
 import com.greetingapp.greetingservice.GreetingService;
 import com.greetingapp.model.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,6 +50,13 @@ public class GreetingController {
     public String getPersonalizedMessage(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName){
         Greeting savedGreeting = greetingService.saveGreeting(firstName,lastName);
         return greetingService.getPersonalizedMessage(firstName,lastName);
+    }
+
+    //UC5
+    @GetMapping("/{id}")
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable Long id){
+        Greeting greeting = greetingService.getGreetingById(id);
+        return ResponseEntity.ok(greeting);
     }
 
 

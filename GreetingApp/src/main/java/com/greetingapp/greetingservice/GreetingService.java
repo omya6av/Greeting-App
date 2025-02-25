@@ -4,7 +4,9 @@ package com.greetingapp.greetingservice;
 import com.greetingapp.model.Greeting;
 import com.greetingapp.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 //UC2
@@ -40,6 +42,11 @@ public class GreetingService {
         String message = getPersonalizedMessage(firstName, lastName);
         Greeting greeting = new Greeting(message);
         return greetingRepository.save(greeting);
+    }
+
+    //UC5
+    public Greeting getGreetingById(Long id){
+        return greetingRepository.findById(id).orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND , "Greeting not found ID : "+ id));
     }
 
 }
