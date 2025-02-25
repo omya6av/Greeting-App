@@ -64,4 +64,11 @@ public class GreetingService {
         return greetingRepository.save(existingGreeting);
     }
 
+    //UC8
+    // Delete Greeting by ID
+    public void deleteGreeting(Long id) {
+        Greeting existingGreeting = greetingRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Greeting not found with ID: " + id));
+        greetingRepository.delete(existingGreeting);
+    }
+
 }
