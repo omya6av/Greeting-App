@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 //UC2
 @Service
@@ -34,19 +36,24 @@ public class GreetingService {
     private final GreetingRepository greetingRepository;
 
     @Autowired
-    public GreetingService(GreetingRepository greetingRepository){
+    public GreetingService(GreetingRepository greetingRepository) {
         this.greetingRepository = greetingRepository;
     }
 
-    public Greeting saveGreeting(String firstName, String lastName){
+    public Greeting saveGreeting(String firstName, String lastName) {
         String message = getPersonalizedMessage(firstName, lastName);
         Greeting greeting = new Greeting(message);
         return greetingRepository.save(greeting);
     }
 
     //UC5
-    public Greeting getGreetingById(Long id){
-        return greetingRepository.findById(id).orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND , "Greeting not found ID : "+ id));
+    public Greeting getGreetingById(Long id) {
+        return greetingRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Greeting not found ID : " + id));
+    }
+
+    //UC6
+    public List<Greeting> getAllGreeting() {
+        return greetingRepository.findAll();
     }
 
 }

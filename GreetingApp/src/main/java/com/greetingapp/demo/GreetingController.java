@@ -6,28 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
 
 
     @GetMapping
-    public GreetingApp get(){
+    public GreetingApp get() {
         return new GreetingApp("Hello world ", "get");
     }
 
     @PostMapping
-    public GreetingApp post(){
+    public GreetingApp post() {
         return new GreetingApp("Hello world ", "post");
     }
 
     @PutMapping
-    public GreetingApp put(){
+    public GreetingApp put() {
         return new GreetingApp("Hello world", "Put");
     }
 
     @DeleteMapping
-    public GreetingApp delete(){
+    public GreetingApp delete() {
         return new GreetingApp("Hello world ", "delete");
     }
 
@@ -36,30 +38,35 @@ public class GreetingController {
     private final GreetingService greetingService;   //dependency injection
 
     @Autowired
-    public GreetingController( GreetingService greetingService){
+    public GreetingController(GreetingService greetingService) {
         this.greetingService = greetingService;
     }
 
     @GetMapping("/message")
-    public String getGreeting(){
+    public String getGreeting() {
         return greetingService.getGreeting();
     }
 
     //UC3 //UC4
     @GetMapping("/personalized")
-    public String getPersonalizedMessage(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName){
-        Greeting savedGreeting = greetingService.saveGreeting(firstName,lastName);
-        return greetingService.getPersonalizedMessage(firstName,lastName);
+    public String getPersonalizedMessage(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName) {
+        Greeting savedGreeting = greetingService.saveGreeting(firstName, lastName);
+        return greetingService.getPersonalizedMessage(firstName, lastName);
     }
 
     //UC5
     @GetMapping("/{id}")
-    public ResponseEntity<Greeting> getGreetingById(@PathVariable Long id){
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable Long id) {
         Greeting greeting = greetingService.getGreetingById(id);
         return ResponseEntity.ok(greeting);
     }
 
-
+    //UC6
+    @GetMapping("/all")
+    public ResponseEntity<List<Greeting>> getAllGreetings() {
+        List<Greeting> greetings = greetingService.getAllGreeting();
+        return ResponseEntity.ok(greetings);
+    }
 
 
 }
